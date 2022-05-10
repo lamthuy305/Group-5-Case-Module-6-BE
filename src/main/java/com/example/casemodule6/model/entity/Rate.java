@@ -16,14 +16,12 @@ public class Rate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long count_five_star;
+    private int star;
 
-    private Long count_four_star;
+    @OneToOne
+    private User user;
 
-    private Long count_three_star;
-
-    private Long count_two_star;
-
-    private Long count_one_star;
+    @ManyToOne
+    private House house;
 
 }
