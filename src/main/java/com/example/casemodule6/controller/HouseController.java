@@ -38,7 +38,7 @@ public class HouseController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id){
-        houseService.deleteById(id);
+        houseService.removeById(id);
     }
 
 

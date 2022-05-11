@@ -26,7 +26,7 @@ public class FileStorageService implements IFileStorageService{
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void removeById(Long id) {
         fileRepository.deleteById(id);
     }
 }

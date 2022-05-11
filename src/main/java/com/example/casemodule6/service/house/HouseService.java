@@ -28,7 +28,7 @@ public class HouseService implements IHouseService{
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void removeById(Long id) {
         houseRepository.deleteById(id);
     }
 }
