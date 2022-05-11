@@ -31,16 +31,16 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/check")
-    public ResponseEntity<User> checkUserBan(@RequestBody User user) {
-        Iterable<User> users = userService.findAllUser();
-        for (User user1 : users) {
-            if (user1.getPassword().equals(user.getPassword())) {
-                return new ResponseEntity<>(user1, HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+//    @PostMapping("/check")
+//    public ResponseEntity<User> checkUserBan(@RequestBody User user) {
+//        Iterable<User> users = userService.findAllUser();
+//        for (User user1 : users) {
+//            if (user1.getPassword().equals(user.getPassword())) {
+//                return new ResponseEntity<>(user1, HttpStatus.OK);
+//            }
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 
 //    @PutMapping("/{id}")
 //    public ResponseEntity<User> banUser(@PathVariable Long id) {

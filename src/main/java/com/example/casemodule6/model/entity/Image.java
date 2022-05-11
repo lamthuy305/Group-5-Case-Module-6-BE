@@ -21,4 +21,8 @@ public class Image {
     @ManyToOne
     private House house;
 
+    public Image(String name, House house) {
+        this.name = name;
+        this.house = house;
+    }
 }
