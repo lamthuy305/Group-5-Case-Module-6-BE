@@ -23,9 +23,9 @@ public class Order {
     @ManyToOne
     private House house;
 
-    private Date start_time;
+    private Date checkIn;
 
-    private Date end_time;
+    private Date checkOut;
 
     @OneToOne
     private StatusOrder statusOrder;

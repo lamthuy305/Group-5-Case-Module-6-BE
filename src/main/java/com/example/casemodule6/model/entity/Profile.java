@@ -31,4 +31,9 @@ public class Profile {
 
     @OneToOne
     private User user;
+
+    public Profile(String phone, User user) {
+        this.phone = phone;
+        this.user = user;
+    }
 }
