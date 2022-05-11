@@ -32,14 +32,14 @@ public class ImagesController {
     @Value("${file-upload}")
     private String uploadPath;
 
-    @GetMapping
-    public ResponseEntity<Iterable<Image>> findAllImage(@RequestParam Optional<Long> id) {
-        Iterable<Image> images = imageService.findAll();
-        if (id.isPresent()) {
-            Optional<List<Image>> images = imageService.findById(id.get());
-        }
-        return new ResponseEntity<>(images, HttpStatus.OK);
-    }
+//    @GetMapping
+//    public ResponseEntity<Iterable<Image>> findAllImage(@RequestParam Optional<Long> id) {
+//        Iterable<Image> images = imageService.findAll();
+//        if (id.isPresent()) {
+//            Optional<List<Image>> images = imageService.findById(id.get());
+//        }
+//        return new ResponseEntity<>(images, HttpStatus.OK);
+//    }
 
 
 //    @PostMapping("/{id}")

@@ -32,9 +32,9 @@ public class HouseForm {
 
     private double price;
 
-    private List<MultipartFile> images;
+    private MultipartFile img;
 
-    private Long count_rent;
+    private List<MultipartFile> images;
 
     @OneToOne
     private StatusHouse statusHouse;
