@@ -36,7 +36,7 @@ public class HouseController {
         return new ResponseEntity<>(houseService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<House> findOne(@PathVariable Long id) {
         Optional<House> houseOptional = houseService.findById(id);
         if (!houseOptional.isPresent()) {
@@ -82,13 +82,24 @@ public class HouseController {
     }
 
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<House> delete(@PathVariable Long id) {
+
+        Optional<House> houseOptional = houseService.findById(id);
+        if (!houseOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Iterable<Image> images = imageService.findAllImageByHouseId(id);
+        for (Image image : images) {
+            imageService.removeById(image.getId());
+        }
         houseService.removeById(id);
+        return new ResponseEntity<>(houseOptional.get(), HttpStatus.OK);
     }
 
 
-    @PostMapping("{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<House> editHouse(@PathVariable Long id, @ModelAttribute House house) {
         Optional<House> houseOptional = houseService.findById(id);
         if (!houseOptional.isPresent()) {
