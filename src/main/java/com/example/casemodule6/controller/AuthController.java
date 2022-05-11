@@ -2,8 +2,10 @@ package com.example.casemodule6.controller;
 
 import com.example.casemodule6.model.dto.JwtResponse;
 import com.example.casemodule6.model.dto.SignUpForm;
+import com.example.casemodule6.model.entity.Profile;
 import com.example.casemodule6.model.entity.User;
 import com.example.casemodule6.service.JwtService;
+import com.example.casemodule6.service.profile.IProfileService;
 import com.example.casemodule6.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +40,9 @@ public class AuthController {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private IProfileService profileService;
+
 
     @Value("${file-upload}")
     private String uploadPath;
@@ -62,34 +67,9 @@ public class AuthController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         User user = new User(signUpForm.getUsername(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
+        Profile profile = new Profile(signUpForm.getPhone(), user);
+        profileService.save(profile);
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
-
-//    @PostMapping("/registerCTV")
-//    public ResponseEntity<User> registerCTV(@RequestParam Long id, @ModelAttribute RestaurantForm restaurantForm) {
-//        Optional<User> user = userService.findById(id);
-//        if (!user.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        MultipartFile img = restaurantForm.getImg();
-//        String fileName = img.getOriginalFilename();
-//        long currentTime = System.currentTimeMillis();
-//        fileName = currentTime + fileName;
-//        try {
-//            FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String name = restaurantForm.getName();
-//        String address = restaurantForm.getAddress();
-//        String openTime = restaurantForm.getOpenTime();
-//        String closeTime = restaurantForm.getCloseTime();
-//        Restaurant restaurant = new Restaurant(name, fileName, address, openTime, closeTime);
-//        restaurantService.save(restaurant);
-//        Restaurant restaurantCurent = restaurantService.findRestaurantMaxID();
-//        user.get().setRestaurant(restaurantCurent);
-//        return new ResponseEntity<>(userService.saveCTV(user.get()), HttpStatus.OK);
-//    }
-
 
 }

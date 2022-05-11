@@ -25,4 +25,6 @@ public class SignUpForm {
     private PasswordForm passwordForm;
 
     private Set<Role> roles;
+
+    private String phone;
 }
