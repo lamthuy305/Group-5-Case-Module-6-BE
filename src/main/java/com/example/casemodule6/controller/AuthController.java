@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Optional;
 
 
@@ -61,7 +62,7 @@ public class AuthController {
         if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        User user = new User(signUpForm.getUsername(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
+        User user = new User(signUpForm.getUsername().toLowerCase(Locale.ROOT),signUpForm.getNumberPhone(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 

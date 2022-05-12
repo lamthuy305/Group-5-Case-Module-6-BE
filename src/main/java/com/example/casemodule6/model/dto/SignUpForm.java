@@ -17,9 +17,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class SignUpForm {
     @NotEmpty
-    @Size(min = 6, max = 30)
     @UniqueUsername
     private String username;
+
+    @NotEmpty
+    private String numberPhone;
 
     @PasswordConfirm
     private PasswordForm passwordForm;

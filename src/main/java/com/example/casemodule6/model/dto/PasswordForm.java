@@ -12,10 +12,10 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class PasswordForm {
     @NotEmpty
-    @Size(min = 6, max = 15)
+    @Size(min = 6, max = 8)
     private String password;
 
     @NotEmpty
-    @Size(min = 6, max = 15)
+    @Size(min = 6, max = 8)
     private String confirmPassword;
 }
