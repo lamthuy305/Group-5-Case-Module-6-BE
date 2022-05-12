@@ -72,8 +72,8 @@ public class HouseController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Image imageFood = new Image(fileName, house);
-                imageService.save(imageFood);
+                Image imageHouse = new Image(fileName, house);
+                imageService.save(imageHouse);
             }
 
             return new ResponseEntity<>(houseService.save(house), HttpStatus.CREATED);
