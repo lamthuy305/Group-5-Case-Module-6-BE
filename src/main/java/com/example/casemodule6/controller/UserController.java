@@ -31,30 +31,6 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-//    @PostMapping("/check")
-//    public ResponseEntity<User> checkUserBan(@RequestBody User user) {
-//        Iterable<User> users = userService.findAllUser();
-//        for (User user1 : users) {
-//            if (user1.getPassword().equals(user.getPassword())) {
-//                return new ResponseEntity<>(user1, HttpStatus.OK);
-//            }
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<User> banUser(@PathVariable Long id) {
-//        Optional<User> user = userService.findById(id);
-//        if (!user.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        if (user.get().isActive()) {
-//            user.get().setActive(false);
-//            return new ResponseEntity<>(userService.save(user.get()), HttpStatus.OK);
-//        } else {
-//            user.get().setActive(true);
-//            return new ResponseEntity<>(userService.save(user.get()), HttpStatus.OK);
-//        }
-//    }
 
 }

@@ -16,15 +16,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.util.Optional;
+import java.util.Locale;
 
 
 @RestController
@@ -38,10 +34,10 @@ public class AuthController {
     private IUserService userService;
 
     @Autowired
-    private JwtService jwtService;
+    private IProfileService profileService;
 
     @Autowired
-    private IProfileService profileService;
+    private JwtService jwtService;
 
 
     @Value("${file-upload}")
@@ -66,10 +62,13 @@ public class AuthController {
         if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        User user = new User(signUpForm.getUsername(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
-        Profile profile = new Profile(signUpForm.getPhone(), user);
+        User user = new User(signUpForm.getUsername().toLowerCase(Locale.ROOT), signUpForm.getNumberPhone(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
+        userService.save(user);
+        User userCurrent = userService.findByUsername(signUpForm.getUsername());
+        Profile profile = new Profile(signUpForm.getNumberPhone(), userCurrent);
         profileService.save(profile);
-        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
 }
