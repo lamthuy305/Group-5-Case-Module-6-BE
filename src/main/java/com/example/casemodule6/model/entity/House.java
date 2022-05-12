@@ -23,6 +23,9 @@ public class House {
 
     private String location;
 
+    @Column(length = 8192)
+    private String description;
+
     private int bedroom;
 
     private int bathroom;
@@ -32,6 +35,7 @@ public class House {
     private String img;
 
     private Long count_rent;
+
 
     @OneToOne
     private StatusHouse statusHouse;

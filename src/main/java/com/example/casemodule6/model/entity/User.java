@@ -26,11 +26,15 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    public User(String username , String numberPhone, String password,Set<Role> roles) {
+    private boolean isActive;
+
+    public User(String username , String numberPhone, String password,Set<Role> roles, boolean isActive) {
         this.username = username;
         this.numberPhone=numberPhone;
         this.password = password;
         this.roles = roles;
+        this.isActive = isActive;
+
     }
 }
 

@@ -23,6 +23,8 @@ public class UserPrincipal implements UserDetails {
 
     private String password;
 
+    private boolean isActive;
+
 
     private List<? extends GrantedAuthority> roles;
 
@@ -36,6 +38,7 @@ public class UserPrincipal implements UserDetails {
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
+                user.isActive(),
                 authorities
         );
     }
@@ -62,21 +65,21 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return isActive;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isActive;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isActive;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isActive;
     }
 }
