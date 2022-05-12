@@ -19,14 +19,16 @@ public class User {
 
     private String username;
 
+    private String numberPhone;
 
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    public User(String username, String password, Set<Role> roles) {
+    public User(String username , String numberPhone, String password,Set<Role> roles) {
         this.username = username;
+        this.numberPhone=numberPhone;
         this.password = password;
         this.roles = roles;
     }
