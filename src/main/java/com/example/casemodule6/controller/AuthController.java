@@ -1,5 +1,6 @@
 package com.example.casemodule6.controller;
 
+import com.example.casemodule6.model.dto.ChangePasswordForm;
 import com.example.casemodule6.model.dto.JwtResponse;
 import com.example.casemodule6.model.dto.SignUpForm;
 import com.example.casemodule6.model.entity.User;
@@ -62,35 +63,21 @@ public class AuthController {
         if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        User user = new User(signUpForm.getUsername().toLowerCase(Locale.ROOT),signUpForm.getNumberPhone(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
+        User user = new User(signUpForm.getUsername().toLowerCase(Locale.ROOT), signUpForm.getNumberPhone(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 
-//    @PostMapping("/registerCTV")
-//    public ResponseEntity<User> registerCTV(@RequestParam Long id, @ModelAttribute RestaurantForm restaurantForm) {
-//        Optional<User> user = userService.findById(id);
-//        if (!user.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        MultipartFile img = restaurantForm.getImg();
-//        String fileName = img.getOriginalFilename();
-//        long currentTime = System.currentTimeMillis();
-//        fileName = currentTime + fileName;
-//        try {
-//            FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String name = restaurantForm.getName();
-//        String address = restaurantForm.getAddress();
-//        String openTime = restaurantForm.getOpenTime();
-//        String closeTime = restaurantForm.getCloseTime();
-//        Restaurant restaurant = new Restaurant(name, fileName, address, openTime, closeTime);
-//        restaurantService.save(restaurant);
-//        Restaurant restaurantCurent = restaurantService.findRestaurantMaxID();
-//        user.get().setRestaurant(restaurantCurent);
-//        return new ResponseEntity<>(userService.saveCTV(user.get()), HttpStatus.OK);
-//    }
-
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordForm changePasswordForm) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(changePasswordForm.getUsername(), changePasswordForm.getPasswordForm().getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        User user= userService.findByUsername(changePasswordForm.getUsername());
+        if (changePasswordForm.getPasswordForm().getPassword().equals(changePasswordForm.getPasswordForm().getConfirmPassword())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        user.setPassword(changePasswordForm.getPasswordForm().getConfirmPassword());
+        return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
+    }
 
 }
