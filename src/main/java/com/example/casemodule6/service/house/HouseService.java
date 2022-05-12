@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class HouseService implements IHouseService{
+public class HouseService implements IHouseService {
     @Autowired
     IHouseRepository houseRepository;
 
@@ -30,5 +30,10 @@ public class HouseService implements IHouseService{
     @Override
     public void removeById(Long id) {
         houseRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<House> find5HouseTopRent() {
+        return houseRepository.find5HouseTopRent();
     }
 }
