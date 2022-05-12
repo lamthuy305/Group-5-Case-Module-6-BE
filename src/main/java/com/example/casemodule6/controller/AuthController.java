@@ -1,5 +1,6 @@
 package com.example.casemodule6.controller;
 
+import com.example.casemodule6.model.dto.ChangePasswordForm;
 import com.example.casemodule6.model.dto.JwtResponse;
 import com.example.casemodule6.model.dto.SignUpForm;
 import com.example.casemodule6.model.entity.Profile;
@@ -62,12 +63,27 @@ public class AuthController {
         if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        User user = new User(signUpForm.getUsername().toLowerCase(Locale.ROOT), signUpForm.getNumberPhone(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles(),true);
+
+        User user = new User(signUpForm.getUsername().toLowerCase(Locale.ROOT), signUpForm.getNumberPhone(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles(), true);
         userService.save(user);
         User userCurrent = userService.findByUsername(signUpForm.getUsername());
         Profile profile = new Profile(signUpForm.getNumberPhone(), userCurrent);
         profileService.save(profile);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordForm changePasswordForm) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(changePasswordForm.getUsername(), changePasswordForm.getPasswordForm().getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        User user = userService.findByUsername(changePasswordForm.getUsername());
+        if (changePasswordForm.getPasswordForm().getPassword().equals(changePasswordForm.getPasswordForm().getConfirmPassword())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        user.setPassword(changePasswordForm.getPasswordForm().getConfirmPassword());
+        return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 
 }
