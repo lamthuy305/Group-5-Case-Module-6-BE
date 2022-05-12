@@ -17,4 +17,8 @@ public class StatusOrder {
     private Long id;
 
     private String name;
+
+    public StatusOrder(Long id) {
+        this.id = id;
+    }
 }

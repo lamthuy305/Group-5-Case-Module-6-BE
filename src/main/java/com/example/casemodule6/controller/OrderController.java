@@ -2,6 +2,7 @@ package com.example.casemodule6.controller;
 
 import com.example.casemodule6.model.entity.Order;
 import com.example.casemodule6.model.entity.Profile;
+import com.example.casemodule6.model.entity.StatusOrder;
 import com.example.casemodule6.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,24 +37,25 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> save(@RequestBody Order order){
+    public ResponseEntity<Order> save(@RequestBody Order order) {
+        order.setStatusOrder(new StatusOrder(1L));
         return new ResponseEntity<>(orderService.save(order), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order){
-        Optional<Order> orderOptional =orderService.findById(id);
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
+        Optional<Order> orderOptional = orderService.findById(id);
         if (!orderOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         order.setId(id);
-        return new ResponseEntity<>(orderService.save(order),HttpStatus.OK);
+        return new ResponseEntity<>(orderService.save(order), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Order> deleteOrder(@PathVariable Long id){
+    public ResponseEntity<Order> deleteOrder(@PathVariable Long id) {
         Optional<Order> orderOptional = orderService.findById(id);
-        if (!orderOptional.isPresent()){
+        if (!orderOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         orderService.removeById(id);
