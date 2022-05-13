@@ -99,6 +99,7 @@ public class HouseController {
     @PostMapping("/{id}")
     public ResponseEntity<House> editHouse(@PathVariable Long id, @ModelAttribute House house) {
         Optional<House> houseOptional = houseService.findById(id);
+
         if (!houseOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

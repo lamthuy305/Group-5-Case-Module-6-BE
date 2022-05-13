@@ -29,7 +29,7 @@ public class House {
 
     private double price;
 
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(length = 100000)
     private String description;
 
     private String img;
@@ -59,8 +59,5 @@ public class House {
 
     @ManyToOne
     private User user;
-
-
-
 
 }
