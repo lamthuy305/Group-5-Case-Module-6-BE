@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class OrderService implements IOrderService{
+public class OrderService implements IOrderService {
 
     @Autowired
     IOrderRepository orderRepository;
@@ -39,5 +39,20 @@ public class OrderService implements IOrderService{
     @Override
     public Page<Order> findOrderByName(String name) {
         return null;
+    }
+
+    @Override
+    public Iterable<Order> findAllOrderProcessingByUserId(Long user_id) {
+        return orderRepository.findAllOrderProcessingByUserId(user_id);
+    }
+
+    @Override
+    public Iterable<Order> findAllOrderStatusDone(Long user_id) {
+        return orderRepository.findAllOrderStatusDone(user_id);
+    }
+
+    @Override
+    public Iterable<Order> find5OrderByOrderIdRent(Long user_id) {
+        return orderRepository.find5OrderByOrderIdRent(user_id);
     }
 }

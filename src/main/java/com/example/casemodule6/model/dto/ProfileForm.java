@@ -13,7 +13,7 @@ public class ProfileForm {
 
     private String name;
 
-    private Date birthday;
+    private String birthday;
 
     private MultipartFile avatar;
 
