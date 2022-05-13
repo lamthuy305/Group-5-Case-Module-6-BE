@@ -26,6 +26,8 @@ public class HouseForm {
 
     private String location;
 
+    private String description;
+
     private int bedroom;
 
     private int bathroom;

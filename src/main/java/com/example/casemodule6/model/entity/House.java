@@ -46,10 +46,11 @@ public class House {
     @ManyToOne
     private User user;
 
-    public House(String name, double area, String location, int bedroom, int bathroom, double price, String img, Long count_rent, StatusHouse statusHouse, Type type, User user) {
+    public House(String name, double area, String location, String description, int bedroom, int bathroom, double price, String img, Long count_rent, StatusHouse statusHouse, Type type, User user) {
         this.name = name;
         this.area = area;
         this.location = location;
+        this.description = description;
         this.bedroom = bedroom;
         this.bathroom = bathroom;
         this.price = price;

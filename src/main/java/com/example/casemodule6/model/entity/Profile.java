@@ -1,5 +1,6 @@
 package com.example.casemodule6.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class Profile {
 
     private String name;
 
-    private Date birthday;
+    private String birthday;
 
     private String avatar;
 
