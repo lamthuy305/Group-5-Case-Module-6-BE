@@ -62,7 +62,7 @@ public class HouseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        House house = new House(houseForm.getName(), houseForm.getArea(), houseForm.getLocation(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
+        House house = new House(houseForm.getName(), houseForm.getArea(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
                 fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser());
 
         houseService.save(house);
@@ -81,10 +81,8 @@ public class HouseController {
                 Image imageHouse = new Image(fileName, house);
                 imageService.save(imageHouse);
             }
-
-            return new ResponseEntity<>(houseService.save(house), HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(houseService.save(house), HttpStatus.CREATED);
     }
 
 
