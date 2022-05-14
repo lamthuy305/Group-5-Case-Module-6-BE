@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IHouseRepository extends JpaRepository<House, Long> {
-    @Query(value = "select * from houses order by count_rent DESC limit 5", nativeQuery = true)
+    @Query(value = "select * from houses where status_house_id =1 order by count_rent DESC limit 5", nativeQuery = true)
     Iterable<House> find5HouseTopRent();
+
+    @Query(value = "select * from houses where status_house_id =1 order by RAND() limit 9", nativeQuery = true)
+    Iterable<House> random9House();
 
 }

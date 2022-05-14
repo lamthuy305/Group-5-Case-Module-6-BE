@@ -5,4 +5,6 @@ import com.example.casemodule6.service.IGeneralService;
 
 public interface IHouseService extends IGeneralService<House> {
     Iterable<House> find5HouseTopRent();
+
+    Iterable<House> random9House();
 }

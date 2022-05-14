@@ -41,6 +41,11 @@ public class HouseController {
         return new ResponseEntity<>(houseService.find5HouseTopRent(), HttpStatus.OK);
     }
 
+    @GetMapping("/random")
+    public ResponseEntity<Iterable<House>> ramdom9House() {
+        return new ResponseEntity<>(houseService.random9House(), HttpStatus.OK);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<House> findOne(@PathVariable Long id) {
@@ -62,27 +67,28 @@ public class HouseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        House house = new House(houseForm.getName(), houseForm.getArea(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
+        House house = new House(houseForm.getId(), houseForm.getName(), houseForm.getArea(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
                 fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser());
-
         houseService.save(house);
 
-        List<MultipartFile> images = houseForm.getImages();
-        if (images.size() > 0) {
-            for (MultipartFile image : images) {
-                fileName = image.getOriginalFilename();
-                currentTime = System.currentTimeMillis();
-                fileName = currentTime + fileName;
-                try {
-                    FileCopyUtils.copy(image.getBytes(), new File(uploadPath + fileName));
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if (houseForm.getImages() != null) {
+            List<MultipartFile> images = houseForm.getImages();
+            if (images.size() > 0) {
+                for (MultipartFile image : images) {
+                    fileName = image.getOriginalFilename();
+                    currentTime = System.currentTimeMillis();
+                    fileName = currentTime + fileName;
+                    try {
+                        FileCopyUtils.copy(image.getBytes(), new File(uploadPath + fileName));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Image imageHouse = new Image(fileName, house);
+                    imageService.save(imageHouse);
                 }
-                Image imageHouse = new Image(fileName, house);
-                imageService.save(imageHouse);
             }
         }
-        return new ResponseEntity<>(houseService.save(house), HttpStatus.CREATED);
+        return new ResponseEntity<>(house, HttpStatus.CREATED);
     }
 
 
