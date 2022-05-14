@@ -1,5 +1,6 @@
 package com.example.casemodule6.model.dto;
 
+import com.example.casemodule6.model.entity.City;
 import com.example.casemodule6.model.entity.StatusHouse;
 import com.example.casemodule6.model.entity.Type;
 import com.example.casemodule6.model.entity.User;
@@ -23,6 +24,9 @@ public class HouseForm {
     private String name;
 
     private double area;
+
+    @ManyToOne
+    private City city;
 
     private String location;
 

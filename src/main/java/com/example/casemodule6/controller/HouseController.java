@@ -67,7 +67,7 @@ public class HouseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        House house = new House(houseForm.getId(), houseForm.getName(), houseForm.getArea(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
+        House house = new House(houseForm.getId(), houseForm.getName(), houseForm.getArea(), houseForm.getCity(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
                 fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser());
         houseService.save(house);
 

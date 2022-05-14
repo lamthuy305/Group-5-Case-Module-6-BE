@@ -21,6 +21,9 @@ public class House {
 
     private double area;
 
+    @ManyToOne
+    private City city;
+
     private String location;
 
     @Column(length = 8192)
@@ -36,7 +39,6 @@ public class House {
 
     private Long count_rent;
 
-
     @OneToOne
     private StatusHouse statusHouse;
 
@@ -46,9 +48,11 @@ public class House {
     @ManyToOne
     private User user;
 
-    public House(String name, double area, String location, String description, int bedroom, int bathroom, double price, String img, Long count_rent, StatusHouse statusHouse, Type type, User user) {
+    public House(String name, double area, City city, String location, String description, int bedroom, int bathroom,
+                 double price, String img, Long count_rent, StatusHouse statusHouse, Type type, User user) {
         this.name = name;
         this.area = area;
+        this.city = city;
         this.location = location;
         this.description = description;
         this.bedroom = bedroom;
