@@ -46,6 +46,16 @@ public class HouseController {
         return new ResponseEntity<>(houseService.random9House(), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<House>> getHouseSearchDone(@RequestParam(name = "city") Optional<String> city,
+                                                              @RequestParam(name = "bedroom") Optional<String> bedroom,
+                                                              @RequestParam(name = "bathroom") Optional<String> bathroom,
+                                                              @RequestParam(name = "price") Optional<String> price,
+                                                              @RequestParam(name = "type") Optional<String> type) {
+        Iterable<House> houses = houseService.search9House(city.get(), bedroom.get(), bathroom.get(), price.get(), type.get());
+        return new ResponseEntity<>(houses, HttpStatus.OK);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<House> findOne(@PathVariable Long id) {
@@ -67,8 +77,10 @@ public class HouseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         House house = new House(houseForm.getId(), houseForm.getName(), houseForm.getArea(), houseForm.getCity(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
-                fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser());
+                fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser(), houseService.checkRankBathroomOfHouse(houseForm.getBathroom()), houseService.checkRankBedroomOfHouse(houseForm.getBedroom()), houseService.checkRankPriceOfHouse(houseForm.getPrice()));
         houseService.save(house);
 
         if (houseForm.getImages() != null) {

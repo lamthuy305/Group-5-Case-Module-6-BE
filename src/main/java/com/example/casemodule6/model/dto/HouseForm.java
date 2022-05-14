@@ -1,9 +1,6 @@
 package com.example.casemodule6.model.dto;
 
-import com.example.casemodule6.model.entity.City;
-import com.example.casemodule6.model.entity.StatusHouse;
-import com.example.casemodule6.model.entity.Type;
-import com.example.casemodule6.model.entity.User;
+import com.example.casemodule6.model.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,4 +47,5 @@ public class HouseForm {
 
     @ManyToOne
     private User user;
+
 }

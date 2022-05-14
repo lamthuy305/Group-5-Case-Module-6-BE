@@ -1,5 +1,6 @@
 package com.example.casemodule6.model.entity;
 
+import com.example.casemodule6.controller.RankBedroomController;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,8 +49,17 @@ public class House {
     @ManyToOne
     private User user;
 
-    public House(String name, double area, City city, String location, String description, int bedroom, int bathroom,
-                 double price, String img, Long count_rent, StatusHouse statusHouse, Type type, User user) {
+    @ManyToOne
+    private RankBathroom rankBathroom;
+
+    @ManyToOne
+    private RankBedroom rankBedroom;
+
+    @ManyToOne
+    private RankPrice rankPrice;
+
+    public House(String name, double area, City city, String location, String description, int bedroom, int bathroom, double price, String img,
+                 Long count_rent, StatusHouse statusHouse, Type type, User user, RankBathroom rankBathroom, RankBedroom rankBedroom, RankPrice rankPrice) {
         this.name = name;
         this.area = area;
         this.city = city;
@@ -63,5 +73,8 @@ public class House {
         this.statusHouse = statusHouse;
         this.type = type;
         this.user = user;
+        this.rankBathroom = rankBathroom;
+        this.rankBedroom = rankBedroom;
+        this.rankPrice = rankPrice;
     }
 }
