@@ -57,13 +57,13 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public Iterable<Order> getHouseInMonthYear(String month, String year) {
+    public Iterable<Order> getHouseInMonthYear(String id, String month, String year) {
         if (month == "") {
             month = "%%";
         }
         if (year == "") {
             year = "%%";
         }
-        return orderRepository.getHouseInMonthYear(month, year);
+        return orderRepository.getHouseInMonthYear(id,month, year);
     }
 }

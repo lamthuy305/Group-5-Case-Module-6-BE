@@ -20,13 +20,18 @@ delimiter ;
 
 DELIMITER //
 create procedure in_come_house(
+    IN id_user varchar(50),
     IN month varchar(50),
     IN year VARCHAR(50))
 begin
     select *
-    from orders join houses h on h.id = orders.house_id
-    where MONTH(check_out) like month
+    from orders
+             join houses h on h.id = orders.house_id
+             join users u on h.user_id = u.id
+    where u.id = id_user
+      and MONTH(check_out) like month
       and YEAR(check_out) like year
       and status_order_id = 2;
 end //
 delimiter ;
+

@@ -57,9 +57,10 @@ public class OrderController {
     }
 
     @GetMapping("/income")
-    public ResponseEntity<Iterable<Order>> getHouseInMonthYear(@RequestParam(name = "month") Optional<String> month,
+    public ResponseEntity<Iterable<Order>> getHouseInMonthYear(@RequestParam(name = "id") Optional<String> id,
+                                                               @RequestParam(name = "month") Optional<String> month,
                                                                @RequestParam(name = "year") Optional<String> year) {
-        Iterable<Order> orders = orderService.getHouseInMonthYear(month.get(), year.get());
+        Iterable<Order> orders = orderService.getHouseInMonthYear(id.get(), month.get(), year.get());
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 

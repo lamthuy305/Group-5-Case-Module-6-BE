@@ -11,5 +11,5 @@ public interface IOrderService extends IGeneralService<Order> {
     Iterable<Order> findAllOrderStatusDone(Long user_id);
     Iterable<Order> find5OrderByOrderIdRent(Long user_id);
 
-    Iterable<Order> getHouseInMonthYear(String month, String year);
+    Iterable<Order> getHouseInMonthYear(String id,String month, String year);
 }
