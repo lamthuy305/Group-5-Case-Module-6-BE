@@ -73,6 +73,12 @@ public class OrderController {
         return new ResponseEntity<>(orderOptional.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/house/{id}")
+    public ResponseEntity<Iterable<Order>> getAllOrderByHouseId(@PathVariable Long id) {
+        Iterable<Order> orders = orderService.getAllOrderByHouseId(id);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Order> save(@RequestBody Order order) {
         order.setStatusOrder(new StatusOrder(1L));

@@ -8,8 +8,12 @@ public interface IOrderService extends IGeneralService<Order> {
     Page<Order> findOrderByName(String name);
 
     Iterable<Order> findAllOrderProcessingByUserId(Long user_id);
+
     Iterable<Order> findAllOrderStatusDone(Long user_id);
+
     Iterable<Order> find5OrderByOrderIdRent(Long user_id);
 
-    Iterable<Order> getHouseInMonthYear(String id,String month, String year);
+    Iterable<Order> getAllOrderByHouseId(Long id);
+
+    Iterable<Order> getHouseInMonthYear(String id, String month, String year);
 }
