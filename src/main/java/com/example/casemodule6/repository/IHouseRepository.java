@@ -18,4 +18,5 @@ public interface IHouseRepository extends JpaRepository<House, Long> {
     @Query(value = "call search_house(?1,?2,?3,?4,?5)", nativeQuery = true)
     Iterable<House> search9House(String city, String bedroom, String bathroom, String price, String type);
 
+
 }

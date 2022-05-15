@@ -91,4 +91,5 @@ public class HouseService implements IHouseService {
         }
         return houseRepository.search9House(city, bedroom, bathroom, price, type);
     }
+
 }

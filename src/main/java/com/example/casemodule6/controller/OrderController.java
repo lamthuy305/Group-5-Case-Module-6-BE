@@ -1,5 +1,6 @@
 package com.example.casemodule6.controller;
 
+import com.example.casemodule6.model.entity.House;
 import com.example.casemodule6.model.entity.Order;
 import com.example.casemodule6.model.entity.StatusOrder;
 import com.example.casemodule6.service.order.OrderService;
@@ -53,6 +54,13 @@ public class OrderController {
         }
         orderOptional.get().setStatusOrder(new StatusOrder(3L));
         return new ResponseEntity<>(orderService.save(orderOptional.get()), HttpStatus.OK);
+    }
+
+    @GetMapping("/income")
+    public ResponseEntity<Iterable<Order>> getHouseInMonthYear(@RequestParam(name = "month") Optional<String> month,
+                                                               @RequestParam(name = "year") Optional<String> year) {
+        Iterable<Order> orders = orderService.getHouseInMonthYear(month.get(), year.get());
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

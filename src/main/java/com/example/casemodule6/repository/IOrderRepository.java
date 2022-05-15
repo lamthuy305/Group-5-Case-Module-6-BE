@@ -15,4 +15,7 @@ public interface IOrderRepository extends PagingAndSortingRepository<Order, Long
 
     @Query(value = "select * from orders where user_id = ?1 order by check_out DESC limit 5", nativeQuery = true)
     Iterable<Order> find5OrderByOrderIdRent(Long user_id);
+
+    @Query(value = "call in_come_house(?1,?2)", nativeQuery = true)
+    Iterable<Order> getHouseInMonthYear(String month, String year);
 }

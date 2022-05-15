@@ -24,13 +24,21 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<User>> findById(@PathVariable Long id) {
-        Optional<User> user = userService.findById(id);
-        if (!user.isPresent()) {
+        Optional<User> userOptional = userService.findById(id);
+        if (!userOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userOptional, HttpStatus.OK);
     }
 
-
-
+    @GetMapping("/lockOrUnlock/{id}")
+    public ResponseEntity<Optional<User>> lockOrUnlockUser(@PathVariable Long id) {
+        Optional<User> userOptional = userService.findById(id);
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        userOptional.get().setActive(!userOptional.get().isActive());
+        userService.save(userOptional.get());
+        return new ResponseEntity<>(userOptional, HttpStatus.OK);
+    }
 }
