@@ -32,8 +32,12 @@ public class HouseController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Iterable<House>> findAllHouse() {
-        return new ResponseEntity<>(houseService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Iterable<House>> findAllHouse(@RequestParam(name = "id") Optional<Long> id) {
+        Iterable<House> houses = houseService.findAll();
+        if (id.isPresent()) {
+            houses = houseService.findAllByUserId(id.get());
+        }
+        return new ResponseEntity<>(houses, HttpStatus.OK);
     }
 
     @GetMapping("/top5")

@@ -17,6 +17,8 @@ public interface IHouseService extends IGeneralService<House> {
 
     RankBedroom checkRankBedroomOfHouse(double number);
 
+    Iterable<House> findAllByUserId(Long id);
+
     Iterable<House> search9House(String city, String bedroom, String bathroom, String price, String type);
 
 }

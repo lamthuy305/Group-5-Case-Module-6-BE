@@ -73,6 +73,12 @@ public class HouseService implements IHouseService {
     }
 
     @Override
+    public Iterable<House> findAllByUserId(Long id) {
+        return houseRepository.findAllByUserId(id);
+    }
+
+
+    @Override
     public Iterable<House> search9House(String city, String bedroom, String bathroom, String price, String type) {
         if (city == "") {
             city = "%%";

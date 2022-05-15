@@ -34,4 +34,9 @@ public class ProfileService implements IProfileService {
     public void removeById(Long id) {
         profileRepository.deleteById(id);
     }
+
+    @Override
+    public Profile findByUserId(Long user_id) {
+        return profileRepository.findByUserId(user_id);
+    }
 }
