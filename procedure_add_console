@@ -1,0 +1,37 @@
+DELIMITER //
+create procedure search_house(
+    IN city VARCHAR(50),
+    IN bedroom VARCHAR(50),
+    IN bathroom varchar(50),
+    IN price varchar(50),
+    IN type VARCHAR(50))
+begin
+    select *
+    from houses
+    where city_id like city
+      and rank_bedroom_id like bedroom
+      and rank_bathroom_id like bathroom
+      and rank_price_id like price
+      and type_id like type
+      and status_house_id = 1
+    limit 9;
+end //
+delimiter ;
+
+DELIMITER //
+create procedure in_come_house(
+    IN id_user varchar(50),
+    IN month varchar(50),
+    IN year VARCHAR(50))
+begin
+    select *
+    from orders
+             join houses h on h.id = orders.house_id
+             join users u on h.user_id = u.id
+    where u.id = id_user
+      and MONTH(check_out) like month
+      and YEAR(check_out) like year
+      and status_order_id = 2;
+end //
+delimiter ;
+

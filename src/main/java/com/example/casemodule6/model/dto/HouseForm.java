@@ -1,8 +1,6 @@
 package com.example.casemodule6.model.dto;
 
-import com.example.casemodule6.model.entity.StatusHouse;
-import com.example.casemodule6.model.entity.Type;
-import com.example.casemodule6.model.entity.User;
+import com.example.casemodule6.model.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +21,9 @@ public class HouseForm {
     private String name;
 
     private double area;
+
+    @ManyToOne
+    private City city;
 
     private String location;
 
@@ -46,4 +47,5 @@ public class HouseForm {
 
     @ManyToOne
     private User user;
+
 }

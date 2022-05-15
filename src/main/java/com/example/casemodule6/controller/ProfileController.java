@@ -27,81 +27,50 @@ public class ProfileController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Iterable<Profile>> findAll(){
-        Iterable<Profile> profiles =profileService.findAll();
+    public ResponseEntity<Iterable<Profile>> findAll() {
+        Iterable<Profile> profiles = profileService.findAll();
         return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Profile> findProfileById(@PathVariable Long id){
-        Optional<Profile> profileOptional =profileService.findById(id);
-        if (!profileOptional.isPresent()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(profileOptional.get(), HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<Profile> save(@ModelAttribute ProfileForm profileForm){
-        MultipartFile imageFile= profileForm.getAvatar();
-        String fileName= imageFile.getOriginalFilename();
-        long currentTime =System.currentTimeMillis();
-        fileName = currentTime + fileName;
-        try {
-            FileCopyUtils.copy(imageFile.getBytes(),new File(uploadPath+fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Profile profile = new Profile();
-        profile.setName(profileForm.getName());
-        profile.setBirthday(profileForm.getBirthday());
-        profile.setAvatar(fileName);
-        profile.setEmail(profileForm.getEmail());
-        profile.setAddress(profileForm.getAddress());
-        profile.setPhone(profileForm.getPhone());
-        profile.setUser(profileForm.getUser());
-        profileService.save(profile);
+    public ResponseEntity<Profile> findProfileById(@PathVariable Long id) {
+        Profile profile = profileService.findByUserId(id);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
+
     @PostMapping("/{id}")
-    public ResponseEntity<Profile> updateProfile(@PathVariable Long id, @ModelAttribute ProfileForm profileForm){
-        Optional<Profile> optionalProfile = profileService.findById(id);
-        if (!optionalProfile.isPresent()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        MultipartFile imageFile =profileForm.getAvatar();
-        String fileName ="";
-        if (imageFile !=null){
-            fileName =imageFile.getOriginalFilename();
+    public ResponseEntity<Profile> updateProfile(@PathVariable Long id, @ModelAttribute ProfileForm profileForm) {
+        Profile profile = profileService.findByUserId(id);
+        MultipartFile imageFile = profileForm.getAvatar();
+        String fileName = "";
+        if (imageFile != null) {
+            fileName = imageFile.getOriginalFilename();
             long currentTime = System.currentTimeMillis();
-            fileName =currentTime +fileName;
+            fileName = currentTime + fileName;
 
             try {
                 FileCopyUtils.copy(imageFile.getBytes(), new File(uploadPath + fileName));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
-            fileName =optionalProfile.get().getAvatar();
+        } else {
+            fileName = profile.getAvatar();
         }
-        Profile profile = new Profile(id,
-                profileForm.getName(),
-                profileForm.getBirthday(),
-                fileName,
-                profileForm.getAddress(),
-                profileForm.getEmail(),
-                profileForm.getPhone(),
-                profileForm.getUser()
-        );
+        profile.setName(profileForm.getName());
+        profile.setBirthday(profileForm.getBirthday());
+        profile.setAvatar(fileName);
+        profile.setEmail(profileForm.getEmail());
+        profile.setAddress(profileForm.getAddress());
+        profile.setPhone(profileForm.getPhone());
         profileService.save(profile);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Profile> deleteProfile(@PathVariable Long id){
+    public ResponseEntity<Profile> deleteProfile(@PathVariable Long id) {
         Optional<Profile> profileOptional = profileService.findById(id);
-        if (!profileOptional.isPresent()){
+        if (!profileOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         profileService.removeById(id);

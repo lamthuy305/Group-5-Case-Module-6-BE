@@ -32,13 +32,32 @@ public class HouseController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Iterable<House>> findAllHouse() {
-        return new ResponseEntity<>(houseService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Iterable<House>> findAllHouse(@RequestParam(name = "id") Optional<Long> id) {
+        Iterable<House> houses = houseService.findAll();
+        if (id.isPresent()) {
+            houses = houseService.findAllByUserId(id.get());
+        }
+        return new ResponseEntity<>(houses, HttpStatus.OK);
     }
 
     @GetMapping("/top5")
     public ResponseEntity<Iterable<House>> find5HouseTopRent() {
         return new ResponseEntity<>(houseService.find5HouseTopRent(), HttpStatus.OK);
+    }
+
+    @GetMapping("/random")
+    public ResponseEntity<Iterable<House>> ramdom9House() {
+        return new ResponseEntity<>(houseService.random9House(), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<House>> getHouseSearchDone(@RequestParam(name = "city") Optional<String> city,
+                                                              @RequestParam(name = "bedroom") Optional<String> bedroom,
+                                                              @RequestParam(name = "bathroom") Optional<String> bathroom,
+                                                              @RequestParam(name = "price") Optional<String> price,
+                                                              @RequestParam(name = "type") Optional<String> type) {
+        Iterable<House> houses = houseService.search9House(city.get(), bedroom.get(), bathroom.get(), price.get(), type.get());
+        return new ResponseEntity<>(houses, HttpStatus.OK);
     }
 
 
@@ -62,27 +81,30 @@ public class HouseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        House house = new House(houseForm.getName(), houseForm.getArea(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
-                fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser());
 
+
+        House house = new House(houseForm.getId(), houseForm.getName(), houseForm.getArea(), houseForm.getCity(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
+                fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser(), houseService.checkRankBathroomOfHouse(houseForm.getBathroom()), houseService.checkRankBedroomOfHouse(houseForm.getBedroom()), houseService.checkRankPriceOfHouse(houseForm.getPrice()));
         houseService.save(house);
 
-        List<MultipartFile> images = houseForm.getImages();
-        if (images.size() > 0) {
-            for (MultipartFile image : images) {
-                fileName = image.getOriginalFilename();
-                currentTime = System.currentTimeMillis();
-                fileName = currentTime + fileName;
-                try {
-                    FileCopyUtils.copy(image.getBytes(), new File(uploadPath + fileName));
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if (houseForm.getImages() != null) {
+            List<MultipartFile> images = houseForm.getImages();
+            if (images.size() > 0) {
+                for (MultipartFile image : images) {
+                    fileName = image.getOriginalFilename();
+                    currentTime = System.currentTimeMillis();
+                    fileName = currentTime + fileName;
+                    try {
+                        FileCopyUtils.copy(image.getBytes(), new File(uploadPath + fileName));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Image imageHouse = new Image(fileName, house);
+                    imageService.save(imageHouse);
                 }
-                Image imageHouse = new Image(fileName, house);
-                imageService.save(imageHouse);
             }
         }
-        return new ResponseEntity<>(houseService.save(house), HttpStatus.CREATED);
+        return new ResponseEntity<>(house, HttpStatus.CREATED);
     }
 
 
