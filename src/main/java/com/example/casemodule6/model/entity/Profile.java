@@ -33,7 +33,8 @@ public class Profile {
     @OneToOne
     private User user;
 
-    public Profile(String phone, User user) {
+    public Profile(String avatar, String phone, User user) {
+        this.avatar = avatar;
         this.phone = phone;
         this.user = user;
     }

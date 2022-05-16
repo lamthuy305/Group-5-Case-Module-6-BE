@@ -67,7 +67,7 @@ public class AuthController {
         User user = new User(signUpForm.getUsername().toLowerCase(Locale.ROOT), signUpForm.getNumberPhone(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles(), true);
         userService.save(user);
         User userCurrent = userService.findByUsername(signUpForm.getUsername());
-        Profile profile = new Profile(signUpForm.getNumberPhone(), userCurrent);
+        Profile profile = new Profile("avatar.jpg",signUpForm.getNumberPhone(), userCurrent);
         profileService.save(profile);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
