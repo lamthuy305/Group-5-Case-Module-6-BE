@@ -5,4 +5,5 @@ import com.example.casemodule6.service.IGeneralService;
 
 public interface ICommentService extends IGeneralService<Comment> {
     Iterable<Comment> getAllCommentByHouseId(Long id);
+
 }

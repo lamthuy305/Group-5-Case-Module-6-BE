@@ -38,23 +38,23 @@ public class CommentController {
     }
 
 
-    @GetMapping("/like/{id}")
-    public ResponseEntity<Comment> setCountLike(@PathVariable Long id) {
-        Optional<Comment> commentOptional = commentService.findById(id);
-        Long currentLike = commentOptional.get().getCount_like();
-        commentOptional.get().setCount_like(currentLike + 1);
-        commentService.save(commentOptional.get());
-        return new ResponseEntity<>(commentOptional.get(), HttpStatus.OK);
-    }
+//    @GetMapping("/like/{id}")
+//    public ResponseEntity<Comment> setCountLike(@PathVariable Long id) {
+//        Optional<Comment> commentOptional = commentService.findById(id);
+//        Long currentLike = commentOptional.get().getCount_like();
+//        commentOptional.get().setCount_like(currentLike + 1);
+//        commentService.save(commentOptional.get());
+//        return new ResponseEntity<>(commentOptional.get(), HttpStatus.OK);
+//    }
 
-    @GetMapping("/dislike/{id}")
-    public ResponseEntity<Comment> setCountDislike(@PathVariable Long id) {
-        Optional<Comment> commentOptional = commentService.findById(id);
-        Long currentDislike = commentOptional.get().getCount_dislike();
-        commentOptional.get().setCount_dislike(currentDislike + 1);
-        commentService.save(commentOptional.get());
-        return new ResponseEntity<>(commentOptional.get(), HttpStatus.OK);
-    }
+//    @GetMapping("/dislike/{id}")
+//    public ResponseEntity<Comment> setCountDislike(@PathVariable Long id) {
+//        Optional<Comment> commentOptional = commentService.findById(id);
+//        Long currentDislike = commentOptional.get().getCount_dislike();
+//        commentOptional.get().setCount_dislike(currentDislike + 1);
+//        commentService.save(commentOptional.get());
+//        return new ResponseEntity<>(commentOptional.get(), HttpStatus.OK);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Comment> getCommentById(@PathVariable Long id) {
