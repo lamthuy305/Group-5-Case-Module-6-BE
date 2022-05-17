@@ -74,16 +74,20 @@ public class AuthController {
 
 
     @PutMapping("/changePassword")
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordForm changePasswordForm) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(changePasswordForm.getUsername(), changePasswordForm.getPasswordForm().getPassword()));
+    public ResponseEntity<User> changePassword(@Valid @RequestBody ChangePasswordForm changePasswordForm, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(changePasswordForm.getUsername(), changePasswordForm.getCurrentPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = userService.findByUsername(changePasswordForm.getUsername());
-        if (changePasswordForm.getPasswordForm().getPassword().equals(changePasswordForm.getPasswordForm().getConfirmPassword())) {
+        if (changePasswordForm.getCurrentPassword().equals(changePasswordForm.getPasswordForm().getPassword())||!changePasswordForm.getPasswordForm().getPassword().equals(changePasswordForm.getPasswordForm().getConfirmPassword())||!userService.checkRegexPassword(changePasswordForm.getPasswordForm().getPassword()) || !userService.checkRegexPassword(changePasswordForm.getPasswordForm().getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         user.setPassword(changePasswordForm.getPasswordForm().getConfirmPassword());
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
+
+
 
 }
