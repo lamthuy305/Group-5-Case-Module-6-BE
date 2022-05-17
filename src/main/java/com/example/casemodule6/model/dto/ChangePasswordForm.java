@@ -15,6 +15,10 @@ import java.util.Set;
 public class ChangePasswordForm {
     private String username;
 
+    private String currentPassword;
+
+
+    @PasswordConfirm
     private PasswordForm passwordForm;
 
     private Set<Role> roles;
