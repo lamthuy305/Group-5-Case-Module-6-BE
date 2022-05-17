@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "comment")
@@ -24,4 +25,24 @@ public class Comment {
 
     @ManyToOne
     private House house;
+
+    @ManyToOne
+    private Profile profile;
+
+    private Date createTime;
+
+    private Long count_like;
+
+    private Long count_dislike;
+
+
+    public Comment(String text, User user, House house, Profile profile, Date createTime, Long count_like, Long count_dislike) {
+        this.text = text;
+        this.user = user;
+        this.house = house;
+        this.profile = profile;
+        this.createTime = createTime;
+        this.count_like = count_like;
+        this.count_dislike = count_dislike;
+    }
 }
