@@ -73,16 +73,19 @@ public class HouseController {
     @PostMapping
     public ResponseEntity<House> save(@ModelAttribute HouseForm houseForm) {
         MultipartFile img = houseForm.getImg();
-        String fileName = img.getOriginalFilename();
+        String fileName = "";
         long currentTime = System.currentTimeMillis();
-        fileName = currentTime + fileName;
-        try {
-            FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (img != null) {
+            fileName = img.getOriginalFilename();
+            fileName = currentTime + fileName;
+            try {
+                FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            fileName = houseService.findById(houseForm.getId()).get().getImg();
         }
-
-
         House house = new House(houseForm.getId(), houseForm.getName(), houseForm.getArea(), houseForm.getCity(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
                 fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser(), houseService.checkRankBathroomOfHouse(houseForm.getBathroom()), houseService.checkRankBedroomOfHouse(houseForm.getBedroom()), houseService.checkRankPriceOfHouse(houseForm.getPrice()));
         houseService.save(house);
