@@ -91,6 +91,15 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
+
+    @GetMapping("/changeStatusCheckin/{id}")
+    public ResponseEntity<Order> changeStatusCheckinOrder(@PathVariable Long id) {
+        Optional<Order> orderOptional = orderService.findById(id);
+        orderOptional.get().setStatusCheckIn(true);
+        orderService.save(orderOptional.get());
+        return new ResponseEntity<>(orderOptional.get(), HttpStatus.OK);
+    }
+
     @GetMapping("/changeStatusCanceled/{id}") // Dùng khi admin hủy đơn
     public ResponseEntity<Order> changeStatusOrderCanceled(@PathVariable Long id) {
         Optional<Order> orderOptional = orderService.findById(id);
@@ -116,9 +125,7 @@ public class OrderController {
     }
 
     @GetMapping("/income")
-    public ResponseEntity<Iterable<Order>> getHouseInMonthYear(@RequestParam(name = "id") Optional<String> id,
-                                                               @RequestParam(name = "month") Optional<String> month,
-                                                               @RequestParam(name = "year") Optional<String> year) {
+    public ResponseEntity<Iterable<Order>> getHouseInMonthYear(@RequestParam(name = "id") Optional<String> id, @RequestParam(name = "month") Optional<String> month, @RequestParam(name = "year") Optional<String> year) {
         Iterable<Order> orders = orderService.getHouseInMonthYear(id.get(), month.get(), year.get());
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
