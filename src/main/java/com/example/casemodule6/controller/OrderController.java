@@ -57,6 +57,14 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
+
+    @GetMapping("/statusDone/house/{id}")
+    public ResponseEntity<Iterable<Order>> getAllOrderStatusDoneByIdHouse(@PathVariable Long id) {
+        Iterable<Order> orders = orderService.getAllOrderStatusDoneByIdHouse(id);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+
     @GetMapping("/historyOrderTop5/{id}")
     public ResponseEntity<Iterable<Order>> find5OrderByOrderIdRent(@PathVariable Long id) {
         Iterable<Order> orders = orderService.find5OrderByOrderIdRent(id);
