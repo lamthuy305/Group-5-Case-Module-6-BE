@@ -31,4 +31,9 @@ public class NotificationDetailService implements INotificationDetailService {
     public void removeById(Long id) {
         notificationDetailRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<NotificationDetail> getAllNotificationDetailByIdUser(Long id) {
+        return notificationDetailRepository.getAllNotificationDetailByIdUser(id);
+    }
 }

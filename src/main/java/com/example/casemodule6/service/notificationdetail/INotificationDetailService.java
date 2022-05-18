@@ -4,4 +4,6 @@ import com.example.casemodule6.model.entity.NotificationDetail;
 import com.example.casemodule6.service.IGeneralService;
 
 public interface INotificationDetailService extends IGeneralService<NotificationDetail> {
+    Iterable<NotificationDetail> getAllNotificationDetailByIdUser(Long id);
+
 }
