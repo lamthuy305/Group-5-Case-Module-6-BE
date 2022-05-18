@@ -48,7 +48,27 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         orderOptional.get().setStatusOrder(new StatusOrder(2L));
-        return new ResponseEntity<>(orderService.save(orderOptional.get()), HttpStatus.OK);
+        orderService.save(orderOptional.get());
+
+
+        Long testCheckin = orderOptional.get().getCheckIn().getTime();
+        Long testCheckout = orderOptional.get().getCheckOut().getTime();
+        Iterable<Order> ordersProcessing = orderService.findAllOrderProcessingByHouseId(orderOptional.get().getHouse().getId());
+        for (Order orderProcessing : ordersProcessing) {
+            Long timeCheckin = orderProcessing.getCheckIn().getTime();
+            Long timeCheckout = orderProcessing.getCheckOut().getTime();
+            if (timeCheckin >= testCheckin && timeCheckin < testCheckout) {
+                orderProcessing.setStatusOrder(new StatusOrder(3L));
+                orderService.save(orderProcessing);
+            } else if (timeCheckout >= testCheckin && timeCheckout < testCheckout) {
+                orderProcessing.setStatusOrder(new StatusOrder(3L));
+                orderService.save(orderProcessing);
+            } else if (timeCheckin <= testCheckin && timeCheckout >= testCheckout) {
+                orderProcessing.setStatusOrder(new StatusOrder(3L));
+                orderService.save(orderProcessing);
+            }
+        }
+        return new ResponseEntity<>(orderOptional.get(), HttpStatus.OK);
     }
 
     @GetMapping("/statusDone/{id}")
