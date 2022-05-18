@@ -7,26 +7,23 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "rates")
+@Table(name = "dislike_comment")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Rate {
+@NoArgsConstructor
+public class DislikeComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int star;
+    @ManyToOne
+    private Comment comments;
 
     @OneToOne
     private User user;
 
-    @ManyToOne
-    private House house;
-
-    public Rate(int star, User user, House house) {
-        this.star = star;
+    public DislikeComment(Comment comments, User user) {
+        this.comments = comments;
         this.user = user;
-        this.house = house;
     }
 }

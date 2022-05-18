@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IRateRepository extends PagingAndSortingRepository<Rate, Long> {
+    Iterable<Rate> findAllByHouseId(Long houseId);
 }

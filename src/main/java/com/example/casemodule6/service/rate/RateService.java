@@ -31,4 +31,9 @@ public class RateService implements IRateService {
     public void removeById(Long id) {
         rateRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<Rate> findAllByHouseId(Long houseId) {
+        return rateRepository.findAllByHouseId(houseId);
+    }
 }

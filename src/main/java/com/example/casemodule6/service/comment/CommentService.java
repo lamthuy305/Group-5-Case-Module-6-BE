@@ -1,4 +1,4 @@
-package com.example.casemodule6.service.comement;
+package com.example.casemodule6.service.comment;
 
 import com.example.casemodule6.model.entity.Comment;
 import com.example.casemodule6.repository.ICommentRepository;
@@ -30,5 +30,11 @@ public class CommentService implements ICommentService{
     @Override
     public void removeById(Long id) {
         commentRepository.deleteById(id);
+    }
+
+
+    @Override
+    public Iterable<Comment> getAllCommentByHouseId(Long id) {
+        return commentRepository.getAllCommentByHouseId(id);
     }
 }
