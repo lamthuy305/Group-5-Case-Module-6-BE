@@ -34,6 +34,11 @@ public class CommentService implements ICommentService {
     }
 
     @Override
+    public Iterable<Comment> get5CommentByHouseId(Long id) {
+        return commentRepository.get5CommentByHouseId(id);
+    }
+
+    @Override
     public Iterable<Comment> getAllCommentByHouseId(Long id) {
         return commentRepository.getAllCommentByHouseId(id);
     }

@@ -1,9 +1,11 @@
 package com.example.casemodule6.controller;
 
-import com.example.casemodule6.model.entity.House;
-import com.example.casemodule6.model.entity.Order;
-import com.example.casemodule6.model.entity.StatusOrder;
+import com.example.casemodule6.model.entity.*;
+import com.example.casemodule6.service.house.IHouseService;
+import com.example.casemodule6.service.notificationdetail.INotificationDetailService;
+import com.example.casemodule6.service.order.IOrderService;
 import com.example.casemodule6.service.order.OrderService;
+import com.example.casemodule6.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,13 @@ import java.util.Optional;
 @RequestMapping("/orders")
 public class OrderController {
     @Autowired
-    private OrderService orderService;
+    private IOrderService orderService;
+
+    @Autowired
+    INotificationDetailService notificationDetailService;
+
+    @Autowired
+    IHouseService houseService;
 
     @GetMapping("/processing/{currentUserId}")
     public ResponseEntity<Iterable<Order>> findAllOrderProcessingByUserId(@PathVariable Long currentUserId) {
@@ -46,12 +54,24 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @GetMapping("/changeStatusCanceled/{id}")
+    @GetMapping("/changeStatusCanceled/{id}") // Dùng khi admin hủy đơn
     public ResponseEntity<Order> changeStatusOrderCanceled(@PathVariable Long id) {
         Optional<Order> orderOptional = orderService.findById(id);
         if (!orderOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        orderOptional.get().setStatusOrder(new StatusOrder(3L));
+        return new ResponseEntity<>(orderService.save(orderOptional.get()), HttpStatus.OK);
+    }
+
+    @GetMapping("/customerChangeStatusCanceled/{id}") //Dùng khi khách hàng hủy đơn ( tạo thông báo)
+    public ResponseEntity<Order> customerChangeStatusOrderCanceled(@PathVariable Long id) {
+        Optional<Order> orderOptional = orderService.findById(id);
+        if (!orderOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        NotificationDetail notificationDetail = new NotificationDetail(new StatusNotification(2L), orderOptional.get().getHouse());
+        notificationDetailService.save(notificationDetail);
         orderOptional.get().setStatusOrder(new StatusOrder(3L));
         return new ResponseEntity<>(orderService.save(orderOptional.get()), HttpStatus.OK);
     }
@@ -81,7 +101,10 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<Order> save(@RequestBody Order order) {
+        Optional<House> houseOptional = houseService.findById(order.getHouse().getId());
         order.setStatusOrder(new StatusOrder(1L));
+        NotificationDetail notificationDetail = new NotificationDetail(new StatusNotification(1L), houseOptional.get());
+        notificationDetailService.save(notificationDetail);
         return new ResponseEntity<>(orderService.save(order), HttpStatus.CREATED);
     }
 

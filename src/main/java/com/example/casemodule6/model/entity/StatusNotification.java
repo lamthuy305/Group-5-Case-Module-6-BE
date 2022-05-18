@@ -17,4 +17,8 @@ public class StatusNotification {
     private Long id;
 
     private String name;
+
+    public StatusNotification(Long id) {
+        this.id = id;
+    }
 }

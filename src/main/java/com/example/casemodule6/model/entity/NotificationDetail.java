@@ -17,8 +17,13 @@ public class NotificationDetail {
     private Long id;
 
     @OneToOne
-    private User user;
+    private StatusNotification statusNotification;
 
     @OneToOne
-    private StatusNotification statusNotification;
+    private House house;
+
+    public NotificationDetail(StatusNotification statusNotification, House house) {
+        this.statusNotification = statusNotification;
+        this.house = house;
+    }
 }
