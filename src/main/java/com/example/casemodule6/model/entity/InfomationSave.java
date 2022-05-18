@@ -8,11 +8,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "notification_detail")
+@Table(name = "infomation_save")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotificationDetail {
+public class InfomationSave {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,12 +33,15 @@ public class NotificationDetail {
     @OneToOne
     private Profile profile;
 
-    public NotificationDetail(StatusNotification statusNotification, House house, Date createDay, String path, User user, Profile profile) {
+    private boolean isActive;
+
+    public InfomationSave(StatusNotification statusNotification, House house, Date createDay, String path, User user, Profile profile, boolean isActive) {
         this.statusNotification = statusNotification;
         this.house = house;
         this.createDay = createDay;
         this.path = path;
         this.user = user;
         this.profile = profile;
+        this.isActive = isActive;
     }
 }

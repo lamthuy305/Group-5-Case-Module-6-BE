@@ -23,6 +23,12 @@ public class CommentController {
     private ICommentService commentService;
 
     @Autowired
+    IProfileService profileService;
+
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
     private INotificationDetailService notificationDetailService;
 
     @GetMapping
@@ -49,7 +55,10 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<Comment> createComment(@RequestBody CommentForm commentForm) {
         Comment comment = new Comment(commentForm.getText(), commentForm.getUser(), commentForm.getHouse(), commentForm.getProfile(), new Date(), 0L, 0L);
-        NotificationDetail notificationDetail = new NotificationDetail(new StatusNotification(4L), commentForm.getHouse());
+        Optional<User> userOptional = userService.findById(commentForm.getUser().getId());
+        String path = "/view/" + commentForm.getHouse().getId();
+        Profile profile = profileService.findByUserId(userOptional.get().getId());
+        NotificationDetail notificationDetail = new NotificationDetail(new StatusNotification(4L), commentForm.getHouse(), new Date(), path, userOptional.get(),profile);
         notificationDetailService.save(notificationDetail);
         return new ResponseEntity<>(commentService.save(comment), HttpStatus.CREATED);
     }

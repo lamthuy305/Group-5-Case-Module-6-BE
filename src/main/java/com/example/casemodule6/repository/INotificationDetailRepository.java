@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface INotificationDetailRepository extends PagingAndSortingRepository<NotificationDetail, Long> {
-    @Query(value = "select * from notification_detail join houses h on notification_detail.house_id = h.id where user_id = ?1", nativeQuery = true)
+    @Query(value = "select * from notification_detail join houses h on notification_detail.house_id = h.id where h.user_id =?1 order by create_day DESC", nativeQuery = true)
     Iterable<NotificationDetail> getAllNotificationDetailByIdUser(Long id);
 
 

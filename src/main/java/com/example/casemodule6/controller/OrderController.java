@@ -5,12 +5,14 @@ import com.example.casemodule6.service.house.IHouseService;
 import com.example.casemodule6.service.notificationdetail.INotificationDetailService;
 import com.example.casemodule6.service.order.IOrderService;
 import com.example.casemodule6.service.order.OrderService;
+import com.example.casemodule6.service.profile.IProfileService;
 import com.example.casemodule6.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -21,10 +23,17 @@ public class OrderController {
     private IOrderService orderService;
 
     @Autowired
-    INotificationDetailService notificationDetailService;
+    private INotificationDetailService notificationDetailService;
 
     @Autowired
-    IHouseService houseService;
+    private IHouseService houseService;
+
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    IProfileService profileService;
+
 
     @GetMapping("/processing/{currentUserId}")
     public ResponseEntity<Iterable<Order>> findAllOrderProcessingByUserId(@PathVariable Long currentUserId) {
@@ -70,7 +79,9 @@ public class OrderController {
         if (!orderOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        NotificationDetail notificationDetail = new NotificationDetail(new StatusNotification(2L), orderOptional.get().getHouse());
+        String path = "/admin/history";
+        Profile profile = profileService.findByUserId(orderOptional.get().getUser().getId());
+        NotificationDetail notificationDetail = new NotificationDetail(new StatusNotification(2L), orderOptional.get().getHouse(), new Date(), path, orderOptional.get().getUser(), profile);
         notificationDetailService.save(notificationDetail);
         orderOptional.get().setStatusOrder(new StatusOrder(3L));
         return new ResponseEntity<>(orderService.save(orderOptional.get()), HttpStatus.OK);
@@ -103,7 +114,10 @@ public class OrderController {
     public ResponseEntity<Order> save(@RequestBody Order order) {
         Optional<House> houseOptional = houseService.findById(order.getHouse().getId());
         order.setStatusOrder(new StatusOrder(1L));
-        NotificationDetail notificationDetail = new NotificationDetail(new StatusNotification(1L), houseOptional.get());
+        String path = "/admin/orders";
+        Optional<User> userOptional = userService.findById(order.getUser().getId());
+        Profile profile = profileService.findByUserId(userOptional.get().getId());
+        NotificationDetail notificationDetail = new NotificationDetail(new StatusNotification(1L), houseOptional.get(), new Date(), path, userOptional.get(), profile);
         notificationDetailService.save(notificationDetail);
         return new ResponseEntity<>(orderService.save(order), HttpStatus.CREATED);
     }
