@@ -35,7 +35,10 @@ public class User {
         this.password = password;
         this.roles = roles;
         this.isActive = isActive;
+    }
 
+    public User(Long id) {
+        this.id = id;
     }
 
 }

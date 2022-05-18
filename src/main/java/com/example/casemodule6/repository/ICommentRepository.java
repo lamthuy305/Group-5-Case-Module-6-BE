@@ -9,5 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface ICommentRepository extends PagingAndSortingRepository<Comment, Long> {
 
     @Query(value = "select * from comment where house_id = ?1 order by create_time DESC limit 5", nativeQuery = true)
+    Iterable<Comment> get5CommentByHouseId(Long id);
+
+    @Query(value = "select * from comment where house_id = ?1 order by create_time DESC", nativeQuery = true)
     Iterable<Comment> getAllCommentByHouseId(Long id);
 }
