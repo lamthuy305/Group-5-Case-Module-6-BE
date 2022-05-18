@@ -73,15 +73,19 @@ public class HouseController {
     @PostMapping
     public ResponseEntity<House> save(@ModelAttribute HouseForm houseForm) {
         MultipartFile img = houseForm.getImg();
-        String fileName = img.getOriginalFilename();
+        String fileName = "";
         long currentTime = System.currentTimeMillis();
-        fileName = currentTime + fileName;
-        try {
-            FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (img != null) {
+            fileName = img.getOriginalFilename();
+            fileName = currentTime + fileName;
+            try {
+                FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            fileName = houseService.findById(houseForm.getId()).get().getImg();
         }
-
         House house = new House(houseForm.getId(), houseForm.getName(), houseForm.getArea(), houseForm.getCity(), houseForm.getLocation(), houseForm.getDescription(), houseForm.getBedroom(), houseForm.getBathroom(), houseForm.getPrice(),
                 fileName, 0L, houseForm.getStatusHouse(), houseForm.getType(), houseForm.getUser(), houseService.checkRankBathroomOfHouse(houseForm.getBathroom()), houseService.checkRankBedroomOfHouse(houseForm.getBedroom()), houseService.checkRankPriceOfHouse(houseForm.getPrice()));
         houseService.save(house);
@@ -107,6 +111,23 @@ public class HouseController {
     }
 
 
+    @PostMapping("/img")
+    public ResponseEntity<House> editImgHouse(@ModelAttribute HouseForm houseForm) {
+        Optional<House> houseOptional = houseService.findById(houseForm.getId());
+        MultipartFile img = houseForm.getImg();
+        long currentTime = System.currentTimeMillis();
+        String fileName = img.getOriginalFilename();
+        fileName = currentTime + fileName;
+        try {
+            FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        houseOptional.get().setImg(fileName);
+        houseService.save(houseOptional.get());
+        return new ResponseEntity<>(houseOptional.get(), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<House> delete(@PathVariable Long id) {
 
@@ -123,14 +144,4 @@ public class HouseController {
         return new ResponseEntity<>(houseOptional.get(), HttpStatus.OK);
     }
 
-
-    @PostMapping("/{id}")
-    public ResponseEntity<House> editHouse(@PathVariable Long id, @ModelAttribute House house) {
-        Optional<House> houseOptional = houseService.findById(id);
-        if (!houseOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        house.setId(id);
-        return new ResponseEntity<House>(houseService.save(house), HttpStatus.OK);
-    }
 }

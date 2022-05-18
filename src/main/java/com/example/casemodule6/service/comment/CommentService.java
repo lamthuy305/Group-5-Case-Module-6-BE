@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CommentService implements ICommentService{
+public class CommentService implements ICommentService {
     @Autowired
     private ICommentRepository commentRepository;
+
     @Override
     public Iterable<Comment> findAll() {
         return commentRepository.findAll();
@@ -32,6 +33,10 @@ public class CommentService implements ICommentService{
         commentRepository.deleteById(id);
     }
 
+    @Override
+    public Iterable<Comment> get5CommentByHouseId(Long id) {
+        return commentRepository.get5CommentByHouseId(id);
+    }
 
     @Override
     public Iterable<Comment> getAllCommentByHouseId(Long id) {

@@ -31,4 +31,15 @@ public class RatingController {
         return new ResponseEntity<>(rates,HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<Rate> createNewRate(@RequestBody Rate rate){
+        return new ResponseEntity<>(rateService.save(rate),HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{houseId}/average")
+   public double showTotalRateByHouseId(@PathVariable Long houseId){
+        double totalRate = Math.round(rateService.showTotalRateByHouseId(houseId));
+        return totalRate;
+    }
+
 }

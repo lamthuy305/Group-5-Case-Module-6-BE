@@ -36,4 +36,9 @@ public class RateService implements IRateService {
     public Iterable<Rate> findAllByHouseId(Long houseId) {
         return rateRepository.findAllByHouseId(houseId);
     }
+
+    @Override
+    public double showTotalRateByHouseId(Long houseId) {
+        return rateRepository.showTotalRateByHouseId(houseId);
+    }
 }
