@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface IOrderRepository extends PagingAndSortingRepository<Order, Long> {
     @Query(value = "select * from orders join houses h on orders.house_id = h.id where status_order_id =1 AND h.user_id =?1", nativeQuery = true)
     Iterable<Order> findAllOrderProcessingByUserId(Long user_id);
+    @Query(value = "select * from orders join houses h on orders.house_id = h.id where status_order_id =1 AND h.id =?1", nativeQuery = true)
+    Iterable<Order> findAllOrderProcessingByHouseId(Long house_id);
 
     @Query(value = "select * from orders join houses h on orders.house_id = h.id where status_order_id =2 AND h.user_id =?1", nativeQuery = true)
     Iterable<Order> findAllOrderStatusDone(Long user_id);
