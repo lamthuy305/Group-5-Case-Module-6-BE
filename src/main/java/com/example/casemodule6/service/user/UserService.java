@@ -47,6 +47,8 @@ public class UserService implements IUserService {
     public void removeById(Long id) {
 
     }
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -68,4 +70,5 @@ public class UserService implements IUserService {
         String regex = "^(?=.*)(?=.*).{6,8}$"; // mật khẩu từ 6-8 ký tự
         return Pattern.matches(regex, password);
     }
+
 }
