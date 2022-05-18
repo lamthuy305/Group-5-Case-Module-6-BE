@@ -51,6 +51,11 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public Iterable<Order> getAllOrderStatusDoneByIdHouse(Long house_id) {
+        return orderRepository.getAllOrderStatusDoneByIdHouse(house_id);
+    }
+
+    @Override
     public Iterable<Order> find5OrderByOrderIdRent(Long user_id) {
         return orderRepository.find5OrderByOrderIdRent(user_id);
     }
