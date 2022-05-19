@@ -13,3 +13,5 @@ public interface IRateRepository extends PagingAndSortingRepository<Rate, Long> 
     double showTotalRateByHouseId(Long houseId);
 
 }
+
+
