@@ -46,8 +46,18 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public Iterable<Order> findAllOrderProcessingByHouseId(Long house_id) {
+        return orderRepository.findAllOrderProcessingByHouseId(house_id);
+    }
+
+    @Override
     public Iterable<Order> findAllOrderStatusDone(Long user_id) {
         return orderRepository.findAllOrderStatusDone(user_id);
+    }
+
+    @Override
+    public Iterable<Order> getAllOrderStatusDoneByIdHouse(Long house_id) {
+        return orderRepository.getAllOrderStatusDoneByIdHouse(house_id);
     }
 
     @Override

@@ -29,4 +29,6 @@ public class Order {
 
     @OneToOne
     private StatusOrder statusOrder;
+
+    private boolean statusCheckIn;
 }

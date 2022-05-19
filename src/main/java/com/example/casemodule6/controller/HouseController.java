@@ -143,5 +143,5 @@ public class HouseController {
         houseService.removeById(id);
         return new ResponseEntity<>(houseOptional.get(), HttpStatus.OK);
     }
-
 }
+
