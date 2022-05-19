@@ -11,4 +11,5 @@ public interface IUserService extends IGeneralService<User>, UserDetailsService 
     Iterable<User> findAllUser();
 
     boolean checkRegexPassword(String password);
+
 }
