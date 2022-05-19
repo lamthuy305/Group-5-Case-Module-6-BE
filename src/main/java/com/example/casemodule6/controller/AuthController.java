@@ -8,6 +8,7 @@ import com.example.casemodule6.model.entity.User;
 import com.example.casemodule6.service.JwtService;
 import com.example.casemodule6.service.profile.IProfileService;
 import com.example.casemodule6.service.user.IUserService;
+import org.hibernate.boot.jaxb.hbm.spi.JaxbHbmNotFoundEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class AuthController {
         String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User currentUser = userService.findByUsername(user.getUsername());
-        return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
+        return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername() ,userDetails.getAuthorities()));
     }
 
     @PostMapping("/register")
@@ -60,6 +61,7 @@ public class AuthController {
         if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -87,6 +89,9 @@ public class AuthController {
         user.setPassword(changePasswordForm.getPasswordForm().getConfirmPassword());
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
+
+
+
 
 
 

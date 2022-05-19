@@ -8,23 +8,23 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "reply")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column(length = 8192)
     private String text;
 
     @ManyToOne
-    private User user;
+    private Comment comment;
 
     @ManyToOne
-    private House house;
+    private User user;
 
     @ManyToOne
     private Profile profile;
@@ -35,15 +35,13 @@ public class Comment {
 
     private Long count_dislike;
 
-
-    public Comment(String text, User user, House house, Profile profile, Date createTime, Long count_like, Long count_dislike) {
+    public Reply(String text, Comment comment, User user, Profile profile, Date createTime, Long count_like, Long count_dislike) {
         this.text = text;
+        this.comment = comment;
         this.user = user;
-        this.house = house;
         this.profile = profile;
         this.createTime = createTime;
-        this.count_like = count_like;
+        this.count_like= count_like;
         this.count_dislike = count_dislike;
     }
 }
-

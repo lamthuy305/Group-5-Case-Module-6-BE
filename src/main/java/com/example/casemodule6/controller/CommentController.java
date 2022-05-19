@@ -2,7 +2,7 @@ package com.example.casemodule6.controller;
 
 import com.example.casemodule6.model.dto.CommentForm;
 import com.example.casemodule6.model.entity.*;
-import com.example.casemodule6.service.comement.ICommentService;
+import com.example.casemodule6.service.comment.ICommentService;
 import com.example.casemodule6.service.notificationdetail.INotificationDetailService;
 import com.example.casemodule6.service.profile.IProfileService;
 import com.example.casemodule6.service.user.IUserService;
