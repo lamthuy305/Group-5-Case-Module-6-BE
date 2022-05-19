@@ -26,4 +26,6 @@ public class DislikeComment {
         this.comments = comments;
         this.user = user;
     }
+
 }
+

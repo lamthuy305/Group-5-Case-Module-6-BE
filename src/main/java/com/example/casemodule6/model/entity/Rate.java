@@ -24,4 +24,9 @@ public class Rate {
     @ManyToOne
     private House house;
 
+    public Rate(int star, User user, House house) {
+        this.star = star;
+        this.user = user;
+        this.house = house;
+    }
 }

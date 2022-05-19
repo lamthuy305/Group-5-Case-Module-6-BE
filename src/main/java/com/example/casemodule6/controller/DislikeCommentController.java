@@ -4,7 +4,7 @@ import com.example.casemodule6.model.entity.Comment;
 import com.example.casemodule6.model.entity.DislikeComment;
 import com.example.casemodule6.model.entity.LikeComment;
 import com.example.casemodule6.model.entity.User;
-import com.example.casemodule6.service.comement.ICommentService;
+import com.example.casemodule6.service.comment.ICommentService;
 import com.example.casemodule6.service.dislikecomment.IDislikeCommentService;
 import com.example.casemodule6.service.likecomment.ILikeCommentService;
 import com.example.casemodule6.service.user.UserService;

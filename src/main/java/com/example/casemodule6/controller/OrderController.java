@@ -4,7 +4,6 @@ import com.example.casemodule6.model.entity.*;
 import com.example.casemodule6.service.house.IHouseService;
 import com.example.casemodule6.service.notificationdetail.INotificationDetailService;
 import com.example.casemodule6.service.order.IOrderService;
-import com.example.casemodule6.service.order.OrderService;
 import com.example.casemodule6.service.profile.IProfileService;
 import com.example.casemodule6.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +98,7 @@ public class OrderController {
         orderService.save(orderOptional.get());
         return new ResponseEntity<>(orderOptional.get(), HttpStatus.OK);
     }
+
 
     @GetMapping("/changeStatusCanceled/{id}") // Dùng khi admin hủy đơn
     public ResponseEntity<Order> changeStatusOrderCanceled(@PathVariable Long id) {
