@@ -47,6 +47,9 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         orderOptional.get().setStatusOrder(new StatusOrder(2L));
+        Long current_count_rent = orderOptional.get().getHouse().getCount_rent();
+        orderOptional.get().getHouse().setCount_rent(current_count_rent + 1);
+        houseService.save(orderOptional.get().getHouse());
         orderService.save(orderOptional.get());
 
 
