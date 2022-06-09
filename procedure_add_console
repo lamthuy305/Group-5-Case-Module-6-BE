@@ -4,8 +4,7 @@ create procedure search_house(
     IN bedroom VARCHAR(50),
     IN bathroom varchar(50),
     IN price varchar(50),
-    IN type VARCHAR(50),
-    IN defauft_limit int)
+    IN type VARCHAR(50))
 begin
     select *
     from houses
@@ -15,7 +14,7 @@ begin
       and rank_price_id like price
       and type_id like type
       and status_house_id = 1
-    limit defauft_limit;
+    limit 9;
 end //
 delimiter ;
 
